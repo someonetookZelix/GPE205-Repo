@@ -10,13 +10,18 @@ public class EnemyTankMovement : MonoBehaviour
     public int setrange;
     public float setspeed;
 
+    public GameObject self;
+
     private Transform centerPoint;
 
     private GameObject target;
     // Start is called before the first frame update
     void Start()
     {
-
+        Instantiate(tanks[0], transform.position, Quaternion.identity, self.transform);
+        Instantiate(tanks[1], transform.position, Quaternion.identity, self.transform);
+        Instantiate(tanks[2], transform.position, Quaternion.identity, self.transform);
+        Instantiate(tanks[3], transform.position, Quaternion.identity, self.transform);
     }
 
     // Update is called once per frame

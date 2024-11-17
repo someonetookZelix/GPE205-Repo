@@ -10,10 +10,12 @@ public class HuntMovement : MonoBehaviour
     private float speed;
     public GameObject parent;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         speed = parent.GetComponent<EnemyTankMovement>().setspeed;
+        parent = GameObject.FindGameObjectWithTag("TankParent");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         agent.speed = speed;
     }
 
@@ -31,13 +33,13 @@ public class HuntMovement : MonoBehaviour
 
     void LookForPlayer()
     {
-        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 20))
+        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 20) && hit.collider.tag == "Player")
         {
             Debug.DrawLine(transform.position, transform.forward * hit.distance, Color.red);
         }
         else
         {
-            Debug.DrawLine(transform.position, transform.forward * 20, Color.green);
+            Debug.DrawLine(transform.position, transform.forward * 20, Color.red);
         }
     }
 }

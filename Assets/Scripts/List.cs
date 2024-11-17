@@ -14,6 +14,8 @@ public class List : MonoBehaviour
         pawns = new List<string>();
 
         pawns.Add(player.name);
+
+        Instantiate(player, transform.position, Quaternion.identity);
     }
 
     // Update is called once per frame

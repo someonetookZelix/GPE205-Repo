@@ -28,13 +28,13 @@ public class TankMovement : MonoBehaviour
         if (Input.GetKey(right))
         {
             //Rotate to the right
-            transform.Rotate(new Vector3(0, rotSpeed, 0) * Time.deltaTime * speed, Space.World);
+            transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * rotSpeed * 10, Space.World);
         }
 
         if (Input.GetKey(left))
         {
             //Rotate to the left
-            transform.Rotate(new Vector3(0, -rotSpeed, 0) * Time.deltaTime * speed, Space.World);
+            transform.Rotate(new Vector3(0, -1, 0) * Time.deltaTime * rotSpeed * 10, Space.World);
         }
     }
 }

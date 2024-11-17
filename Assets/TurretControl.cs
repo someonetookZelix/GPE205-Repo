@@ -7,15 +7,17 @@ public class TurretControl : MonoBehaviour
     public GameObject parent;
     private float speed;
     private int range;
-    public Transform player;
+    private Transform player;
     private bool hunt;
     UnityEngine.AI.NavMeshAgent agent;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         range = parent.GetComponent<EnemyTankMovement>().setrange;
         speed = parent.GetComponent<EnemyTankMovement>().setspeed;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        parent = GameObject.FindGameObjectWithTag("TankParent");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         agent.speed = speed;
     }
 
@@ -36,14 +38,14 @@ public class TurretControl : MonoBehaviour
 
     void LookForPlayer()
     {
-        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 20))
+        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 20) && hit.collider.tag == "Player")
         {
             Debug.DrawLine(transform.position, transform.forward * hit.distance, Color.red);
             hunt = true;
         }
         else
         {
-            Debug.DrawLine(transform.position, transform.forward * 20, Color.green);
+            Debug.DrawLine(transform.position, transform.forward * 20, Color.magenta);
             hunt = false;
         }
     }

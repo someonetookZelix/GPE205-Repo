@@ -11,15 +11,17 @@ public class RandomMovement : MonoBehaviour
     private Transform centerPoint;
 
     public GameObject parent;
-    public Transform player;
+    private Transform player;
     private bool hunt;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         centerPoint = transform;
         range = parent.GetComponent<EnemyTankMovement>().setrange;
         speed = parent.GetComponent<EnemyTankMovement>().setspeed;
+        parent = GameObject.FindGameObjectWithTag("TankParent");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         agent.speed = speed;
     }
 
@@ -34,12 +36,21 @@ public class RandomMovement : MonoBehaviour
         }
         else
         {
-            Vector3 point;
-            if(RandomPoint(centerPoint.position, range, out point))
+
+            if(agent.remainingDistance <= 0.5f)
             {
-                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
-                agent.SetDestination(point);
+                SetNewPoint();
             }
+        }
+    }
+
+    void SetNewPoint()
+    {
+        Vector3 point;
+        if(RandomPoint(centerPoint.position, range, out point))
+        {
+            Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+            agent.SetDestination(point);
         }
     }
 
@@ -59,14 +70,14 @@ public class RandomMovement : MonoBehaviour
 
     void LookForPlayer()
     {
-        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 20))
+        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 20) && hit.collider.tag == "Player")
         {
             Debug.DrawLine(transform.position, transform.forward * hit.distance, Color.red);
             hunt = true;
         }
         else
         {
-            Debug.DrawLine(transform.position, transform.forward * 20, Color.green);
+            Debug.DrawLine(transform.position, transform.forward * 20, Color.yellow);
             hunt = false;
         }
     }
